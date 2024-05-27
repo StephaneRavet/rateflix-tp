@@ -1,27 +1,48 @@
-import { useState } from 'react';
-import { addMovie, updateMovie } from '../apiClient';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { addMovie, updateMovie, fetchMovie } from '../apiClient.js';
 
-const MovieForm = ({ movie }) => {
-  const [title, setTitle] = useState(movie ? movie.title : '');
-  const [genre, setGenre] = useState(movie ? movie.genre : '');
-  const [releaseDate, setReleaseDate] = useState(movie ? movie.release_date : '');
-  const [rating, setRating] = useState(movie ? movie.rating : '');
+const MovieForm = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [movie, setMovie] = useState({
+    title: '',
+    genre: '',
+    release_date: '',
+    rating: ''
+  });
 
-  const handleSave = async () => {
-    const moviesData = await fetchMovies();
-    setMovies(moviesData);
-    setSelectedMovie(null);
+  useEffect(() => {
+    if (id) {
+      const loadMovie = async () => {
+        const fetchedMovie = await fetchMovie(id);
+        setMovie({
+          title: fetchedMovie.title,
+          genre: fetchedMovie.genre,
+          release_date: fetchedMovie.release_date,
+          rating: fetchedMovie.rating
+        });
+      };
+      loadMovie();
+    }
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setMovie(prevMovie => ({
+      ...prevMovie,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const movieData = { title, genre, release_date: releaseDate, rating };
-    if (movie) {
-      await updateMovie(movie.id, movieData);
+    if (id) {
+      await updateMovie(id, movie);
     } else {
-      await addMovie(movieData);
+      await addMovie(movie);
     }
-    handleSave();
+    navigate('/movies');
   };
 
   return (
@@ -30,36 +51,40 @@ const MovieForm = ({ movie }) => {
         <label className="form-label">Title</label>
         <input
           type="text"
+          name="title"
           className="form-control"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={movie.title}
+          onChange={handleChange}
         />
       </div>
       <div className="mb-3">
         <label className="form-label">Genre</label>
         <input
           type="text"
+          name="genre"
           className="form-control"
-          value={genre}
-          onChange={(e) => setGenre(e.target.value)}
+          value={movie.genre}
+          onChange={handleChange}
         />
       </div>
       <div className="mb-3">
         <label className="form-label">Release Date</label>
         <input
           type="date"
+          name="release_date"
           className="form-control"
-          value={releaseDate}
-          onChange={(e) => setReleaseDate(e.target.value)}
+          value={movie.release_date}
+          onChange={handleChange}
         />
       </div>
       <div className="mb-3">
         <label className="form-label">Rating</label>
         <input
           type="number"
+          name="rating"
           className="form-control"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
+          value={movie.rating}
+          onChange={handleChange}
         />
       </div>
       <button type="submit" className="btn btn-primary">Save</button>

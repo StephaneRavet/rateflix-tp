@@ -88,14 +88,11 @@ const moviesData = [
 
 const seedDatabase = async () => {
   try {
-    await sequelize.sync({ force: true }); // Cette ligne effacera toutes les données existantes et recréera les tables
     await Movie.bulkCreate(moviesData);
     console.info('✅ Database seeded!');
   } catch (error) {
     console.error('Failed to seed database:', error);
-  } finally {
-    await sequelize.close();
   }
 };
 
-seedDatabase();
+export default seedDatabase;

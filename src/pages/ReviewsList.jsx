@@ -3,7 +3,6 @@ import { fetchReviews, deleteReview } from '../apiClient';
 
 const ReviewsList = () => {
   const [reviews, setReviews] = useState([]);
-  const [selectedReview, setSelectedReview] = useState(null);
 
   useEffect(() => {
     const loadReviews = async () => {

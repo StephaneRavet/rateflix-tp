@@ -4,6 +4,10 @@ export async function fetchMovies() {
   const response = await fetch(`${API_BASE_URL}/movies`);
   return response.json();
 }
+export async function fetchMovie(id) {
+  const response = await fetch(`${API_BASE_URL}/movies/${id}`);
+  return response.json();
+}
 
 export async function addMovie(movie) {
   const response = await fetch(`${API_BASE_URL}/movies`, {
@@ -24,8 +28,7 @@ export async function updateMovie(id, movie) {
 }
 
 export async function deleteMovie(id) {
-  const response = await fetch(`${API_BASE_URL}/movies/${id}`, { method: 'DELETE' });
-  return response.json();
+  await fetch(`${API_BASE_URL}/movies/${id}`, { method: 'DELETE' });
 }
 
 export async function fetchReviews() {
@@ -52,6 +55,5 @@ export async function updateReview(id, review) {
 }
 
 export async function deleteReview(id) {
-  const response = await fetch(`${API_BASE_URL}/reviews/${id}`, { method: 'DELETE' });
-  return response.json();
+  await fetch(`${API_BASE_URL}/reviews/${id}`, { method: 'DELETE' });
 }

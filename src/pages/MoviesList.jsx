@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react';
 import { fetchMovies, deleteMovie } from '../apiClient.js';
 import StarRating from '../components/StarRating.jsx';
+import { Link } from 'react-router-dom';
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -37,7 +37,7 @@ const MoviesList = () => {
                 </p>
               </div>
               <div className="card-footer d-flex justify-content-between">
-                <button className="btn btn-info btn-sm" onClick={() => setSelectedMovie(movie)}>Edit</button>
+                <Link to={'/movie/' + movie.id} className="btn btn-info btn-sm">Edit</Link>
                 <button className="btn btn-danger btn-sm" onClick={() => handleDelete(movie.id)}>Delete</button>
               </div>
             </div>

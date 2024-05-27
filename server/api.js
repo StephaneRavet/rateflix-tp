@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import sequelize from './config/database.js';
 import './config/customConsole.js';
+import Movie from './models/movie.js';
+import seedDatabase from './config/seed.js'
 // Importation des routes
 
 const app = express();
@@ -14,20 +16,26 @@ app.use(express.json());
 
 // Utilisation des routes
 
-// Connexion à la base de données
 sequelize
+  // Connexion à la base de données
   .authenticate()
   .then(() => {
     console.log('✅ Connection to the database has been established successfully.');
   })
+  // Synchronisation des modèles avec la base de données
+  .sync({ force: true })
+  .then(async () => {
+    console.log('✅ Database & tables created!');
+    // Vérifier s'il y a 0 enregistrement dans la table movies
+    const movieCount = await Movie.count();
+    if (movieCount === 0) {
+      console.log('No movies found, seeding database...');
+      await seedDatabase();
+    }
+  })
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
-
-// Synchronisation des modèles avec la base de données
-sequelize.sync({ force: true }).then(() => {
-  console.log('✅ Database & tables created!');
-});
 
 // Définir le port d'écoute
 const PORT = process.env.PORT || 5000;

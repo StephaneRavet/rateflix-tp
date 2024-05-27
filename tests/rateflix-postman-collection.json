@@ -109,6 +109,30 @@
             }
         },
         {
+            "name": "Get Movie by ID",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:5000/movies/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "movies",
+                        "1"
+                    ]
+                }
+            }
+        },
+        {
             "name": "Get All Reviews",
             "request": {
                 "method": "GET",
