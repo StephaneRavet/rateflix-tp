@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { addMovie, updateMovie } from '../api';
 
-const MovieForm = ({ movie, onSave }) => {
+const MovieForm = ({ movie }) => {
   const [title, setTitle] = useState(movie ? movie.title : '');
   const [genre, setGenre] = useState(movie ? movie.genre : '');
   const [releaseDate, setReleaseDate] = useState(movie ? movie.release_date : '');
   const [rating, setRating] = useState(movie ? movie.rating : '');
+
+  const handleSave = async () => {
+    const moviesData = await fetchMovies();
+    setMovies(moviesData);
+    setSelectedMovie(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +21,7 @@ const MovieForm = ({ movie, onSave }) => {
     } else {
       await addMovie(movieData);
     }
-    onSave();
+    handleSave();
   };
 
   return (

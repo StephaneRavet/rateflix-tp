@@ -19,16 +19,9 @@ const ReviewsList = () => {
     setReviews(reviews.filter(review => review.id !== id));
   };
 
-  const handleSave = async () => {
-    const reviewsData = await fetchReviews();
-    setReviews(reviewsData);
-    setSelectedReview(null);
-  };
-
   return (
     <div className="container my-4">
       <h2 className="mb-4">Reviews</h2>
-      <ReviewForm review={selectedReview} onSave={handleSave} />
       <div className="table-responsive">
         <table className="table table-striped table-hover">
           <thead className="thead-dark">

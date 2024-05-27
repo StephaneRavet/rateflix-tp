@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { addReview, updateReview } from '../api';
 
-const ReviewForm = ({ review, onSave }) => {
+const ReviewForm = ({ review }) => {
   const [movieOrShowId, setMovieOrShowId] = useState(review ? review.movie_or_show_id : '');
   const [user, setUser] = useState(review ? review.user : '');
   const [reviewText, setReviewText] = useState(review ? review.review : '');
   const [rating, setRating] = useState(review ? review.rating : '');
   const [createdAt, setCreatedAt] = useState(review ? review.created_at : '');
+
+  const handleSave = async () => {
+    const reviewsData = await fetchReviews();
+    setReviews(reviewsData);
+    setSelectedReview(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +28,7 @@ const ReviewForm = ({ review, onSave }) => {
     } else {
       await addReview(reviewData);
     }
-    onSave();
+    handleSave();
   };
 
   return (

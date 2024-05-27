@@ -19,16 +19,9 @@ const MoviesList = () => {
     setMovies(movies.filter(movie => movie.id !== id));
   };
 
-  const handleSave = async () => {
-    const moviesData = await fetchMovies();
-    setMovies(moviesData);
-    setSelectedMovie(null);
-  };
-
   return (
     <div className="container my-4">
       <h2 className="mb-4">Movies</h2>
-      <MovieForm movie={selectedMovie} onSave={handleSave} />
       <div className="table-responsive">
         <table className="table table-striped table-hover">
           <thead className="thead-dark">
