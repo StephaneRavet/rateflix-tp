@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addReview, updateReview } from '../api';
+import { addReview, updateReview } from '../apiClient';
 
 const ReviewForm = ({ review }) => {
   const [movieOrShowId, setMovieOrShowId] = useState(review ? review.movie_or_show_id : '');

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addMovie, updateMovie } from '../api';
+import { addMovie, updateMovie } from '../apiClient';
 
 const MovieForm = ({ movie }) => {
   const [title, setTitle] = useState(movie ? movie.title : '');

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchReviews, deleteReview } from '../api';
-import ReviewForm from './ReviewForm';
+import { fetchReviews, deleteReview } from '../apiClient';
 
 const ReviewsList = () => {
   const [reviews, setReviews] = useState([]);

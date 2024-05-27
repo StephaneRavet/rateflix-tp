@@ -1,6 +1,6 @@
 // components/MoviesList.js
 import { useEffect, useState } from 'react';
-import { fetchMovies, deleteMovie } from '../api.js';
+import { fetchMovies, deleteMovie } from '../apiClient.js';
 import StarRating from '../components/StarRating.jsx';
 
 const MoviesList = () => {
