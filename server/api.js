@@ -17,11 +17,6 @@ app.use(express.json());
 // Utilisation des routes
 
 sequelize
-  // Connexion à la base de données
-  .authenticate()
-  .then(() => {
-    console.log('✅ Connection to the database has been established successfully.');
-  })
   // Synchronisation des modèles avec la base de données
   .sync({ force: true })
   .then(async () => {
