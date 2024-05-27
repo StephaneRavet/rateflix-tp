@@ -1,6 +1,7 @@
+// components/MoviesList.js
 import { useEffect, useState } from 'react';
-import { fetchMovies, deleteMovie } from '../api';
-import MovieForm from './MovieForm';
+import { fetchMovies, deleteMovie } from '../api.js';
+import StarRating from '../components/StarRating.jsx';
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
@@ -21,33 +22,27 @@ const MoviesList = () => {
 
   return (
     <div className="container my-4">
-      <h2 className="mb-4">Movies</h2>
-      <div className="table-responsive">
-        <table className="table table-striped table-hover">
-          <thead className="thead-dark">
-            <tr>
-              <th>Title</th>
-              <th>Genre</th>
-              <th>Release Date</th>
-              <th>Rating</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {movies.map(movie => (
-              <tr key={movie.id}>
-                <td>{movie.title}</td>
-                <td>{movie.genre}</td>
-                <td>{movie.release_date}</td>
-                <td>{movie.rating}</td>
-                <td>
-                  <button className="btn btn-info btn-sm me-2" onClick={() => setSelectedMovie(movie)}>Edit</button>
-                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(movie.id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="row">
+        {movies.map(movie => (
+          <div className="col-md-3 mb-4" key={movie.id}>
+            <div className="card h-100">
+              <img src={movie.imageUrl} className="card-img-top" alt={movie.title} />
+              <div className="text-center"><StarRating rating={movie.rating} /></div>
+              <div className="card-body">
+                <h5 className="card-title">{movie.title}</h5>
+                <p className="card-text text-muted small">
+                  {new Date(movie.release_date).toLocaleDateString()}
+                  <br />
+                  {movie.genre}
+                </p>
+              </div>
+              <div className="card-footer d-flex justify-content-between">
+                <button className="btn btn-info btn-sm" onClick={() => setSelectedMovie(movie)}>Edit</button>
+                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(movie.id)}>Delete</button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
