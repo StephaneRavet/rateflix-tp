@@ -74,7 +74,7 @@ const moviesData = [
     genre: 'Comedy, Drama, Romance',
     release_date: '1994-06-23',
     rating: 8.8,
-    imageUrl: 'https://image.tmdb.org/t/p/w500/yE5d3BUhE8hCnkMUJOo1QDoOGNz.jpg'
+    imageUrl: 'https://image.tmdb.org/t/p/w500/h5J4W4veyxMXDMjeNxZI46TsHOb.jpg'
   },
   {
     type: 'movie',
