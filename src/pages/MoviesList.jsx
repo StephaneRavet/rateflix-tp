@@ -4,7 +4,7 @@ import { fetchMovies, deleteMovie } from '../apiClient.js';
 import StarRating from '../components/StarRating.jsx';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faStar } from '@fortawesome/free-solid-svg-icons';
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
@@ -37,12 +37,20 @@ const MoviesList = () => {
                   {new Date(movie.release_date).toLocaleDateString()}
                   <br />
                   {movie.genre}
-                  <button
-                   className="btn btn-danger btn-sm position-absolute"
-                    style={{ right: 8, bottom: 8 }} onClick={(event) => handleDelete(movie.id, event)}
+                  <span className='position-absolute' style={{ right: 8, bottom: 8 }} >
+                    <Link
+                      className="btn btn-success btn-sm me-1"
+                      to={'/reviews/movie/' + movie.id}
                     >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </button>
+                      <FontAwesomeIcon icon={faStar} />
+                    </Link>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={(event) => handleDelete(movie.id, event)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </span>
                 </p>
               </div>
             </Link>

@@ -1,80 +1,84 @@
-import { useState } from 'react';
-import { addReview, updateReview } from '../apiClient';
+import { useEffect, useState } from 'react';
+import { addReview, updateReview, fetchReviews, fetchMovie } from '../apiClient';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ReviewForm = ({ review }) => {
-  const [movieOrShowId, setMovieOrShowId] = useState(review ? review.movie_or_show_id : '');
-  const [user, setUser] = useState(review ? review.user : '');
-  const [reviewText, setReviewText] = useState(review ? review.review : '');
-  const [rating, setRating] = useState(review ? review.rating : '');
-  const [createdAt, setCreatedAt] = useState(review ? review.created_at : '');
+  const navigate = useNavigate();
+  const { id: movieId } = useParams();
+  const [formData, setFormData] = useState({
+    movie_id: movieId,
+    user: review?.user ?? '',
+    review: review?.review ?? '',
+    rating: review?.rating ?? '',
+    created_at: review?.created_at ?? ''
+  });
+  const [movie, setMovie] = useState({})
 
-  const handleSave = async () => {
-    const reviewsData = await fetchReviews();
-    setReviews(reviewsData);
-    setSelectedReview(null);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({ ...prevFormData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const reviewData = { 
-      movie_or_show_id: movieOrShowId, 
-      user, 
-      review: reviewText, 
-      rating, 
-      created_at: createdAt 
-    };
-    if (review) {
-      await updateReview(review.id, reviewData);
+    if (review.id) {
+      await updateReview(review.id, formData);
     } else {
-      await addReview(reviewData);
+      await addReview(formData);
     }
     handleSave();
+  };
+
+  useEffect(() => {
+    if (movieId) {
+      fetchMovie(movieId).then(setMovie)
+    }
+  }, [movieId])
+
+  const handleSave = async () => {
+    await fetchReviews();
+    navigate('/movies/' + id)
   };
 
   return (
     <form onSubmit={handleSubmit} className="container my-4">
       <div className="mb-3">
-        <label className="form-label">Movie/Show ID</label>
+        <label className="form-label">Movie/Show</label>
         <input
           type="number"
+          name="movie_id"
           className="form-control"
-          value={movieOrShowId}
-          onChange={(e) => setMovieOrShowId(e.target.value)}
+          value={movie.title ?? movieId ?? 'No ID'}
+          readOnly
         />
       </div>
       <div className="mb-3">
         <label className="form-label">User</label>
         <input
           type="text"
+          name="user"
           className="form-control"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          value={formData.user}
+          onChange={handleChange}
         />
       </div>
       <div className="mb-3">
         <label className="form-label">Review</label>
         <textarea
+          name="review"
           className="form-control"
-          value={reviewText}
-          onChange={(e) => setReviewText(e.target.value)}
+          value={formData.review}
+          onChange={handleChange}
         ></textarea>
       </div>
       <div className="mb-3">
         <label className="form-label">Rating</label>
         <input
           type="number"
+          name="rating"
           className="form-control"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Created At</label>
-        <input
-          type="datetime-local"
-          className="form-control"
-          value={createdAt}
-          onChange={(e) => setCreatedAt(e.target.value)}
+          value={formData.rating}
+          onChange={handleChange}
         />
       </div>
       <button type="submit" className="btn btn-primary">Save</button>

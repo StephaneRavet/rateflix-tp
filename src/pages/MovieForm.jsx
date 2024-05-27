@@ -7,6 +7,7 @@ const MovieForm = () => {
   const navigate = useNavigate();
   const [movie, setMovie] = useState({
     title: '',
+    type: '',
     genre: '',
     release_date: '',
     rating: ''
@@ -50,7 +51,6 @@ const MovieForm = () => {
       <div className="mb-3">
         <label className="form-label">Title</label>
         <input
-          type="text"
           name="title"
           className="form-control"
           value={movie.title}
@@ -58,9 +58,17 @@ const MovieForm = () => {
         />
       </div>
       <div className="mb-3">
+        <label className="form-label">Type</label>
+        <input
+          name="type"
+          className="form-control"
+          value={movie.type}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-3">
         <label className="form-label">Genre</label>
         <input
-          type="text"
           name="genre"
           className="form-control"
           value={movie.genre}
