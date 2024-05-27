@@ -42,7 +42,7 @@ const MovieForm = () => {
     } else {
       await addMovie(movie);
     }
-    navigate('/movies');
+    navigate('/');
   };
 
   return (
