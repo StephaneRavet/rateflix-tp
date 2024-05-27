@@ -19,7 +19,7 @@ const MovieForm = () => {
         setMovie({
           title: fetchedMovie.title,
           genre: fetchedMovie.genre,
-          release_date: fetchedMovie.release_date,
+          release_date: fetchedMovie.release_date.split('T')[0], // Convertir la date au format yyyy-MM-dd
           rating: fetchedMovie.rating
         });
       };
